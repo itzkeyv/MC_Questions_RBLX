@@ -146,10 +146,10 @@ local questions = {
 	{
 		question = "Identify the correct contraction for 'they are'", --Q15
 		options = {
-			"A. They’re",
+			"A. They're",
 			"B. Their",
 			"C. There",
-			"D. They’ve"
+			"D. They've"
 		},
 		correctAnswer = "A"
 	},
@@ -177,7 +177,7 @@ local questions = {
 		question = "Which sentence uses 'your' correctly?", --Q18
 		options = {
 			"A. Your going to love this!",
-			"B. You’re book is on the table.",
+			"B. You're book is on the table.",
 			"C. Is this your pen?",
 			"D. Your welcome!"
 		},
@@ -217,7 +217,7 @@ local questions = {
 		question = "Which sentence is grammatically incorrect?", --Q22
 		options = {
 			"A. They are playing football",
-			"B. Illarion don’t like coffee.",
+			"B. Illarion don't like coffee.",
 			"C. Gray has a new car.",
 			"D. We went to the park."
 		},
@@ -256,10 +256,10 @@ local questions = {
 	{
 		question = "What is the correct negative form of 'I have seen that movie?", --Q26
 		options = {
-			"A. I doesn’t have seen that movie.",
-			"B. I didn’t seen that movie.",
+			"A. I doesn't have seen that movie.",
+			"B. I didn't seen that movie.",
 			"C. I not have seen that movie.",
-			"D. I haven’t seen that movie."
+			"D. I haven't seen that movie."
 		},
 		correctAnswer = "D"
 	},
@@ -267,9 +267,9 @@ local questions = {
 		question = "Which sentence uses 'its' correctly?", --Q27
 		options = {
 			"A. Its a beautiful day.",
-			"B. The dog wagged it’s tail.",
+			"B. The dog wagged it's tail.",
 			"C. The cat licked its paws.",
-			"D. Its’ raining outside."
+			"D. Its' raining outside."
 		},
 		correctAnswer = "C"
 	},
@@ -310,7 +310,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 
 -- Constants
-local EXP_PER_CORRECT_ANSWER = 10
 local QUESTION_TIME_LIMIT = 10
 local RESULT_DISPLAY_TIME = 5
 local BETWEEN_QUESTION_DELAY = 5
@@ -401,15 +400,6 @@ function module.startGrammarTest(blackboard)
 				playerAnswers[player] = answer
 				if answer == currentQuestion.correctAnswer then
 					playerScores[player] = playerScores[player] + 1
-
-					-- Award EXP for correct answer
-					local leaderstats = player:FindFirstChild("leaderstats")
-					if leaderstats then
-						local exp = leaderstats:FindFirstChild("Exp")
-						if exp then
-							exp.Value = exp.Value + EXP_PER_CORRECT_ANSWER
-						end
-					end
 				end
 				-- Notify client to update button visuals
 				EnglishRemotes.UpdateButtonEvent:FireClient(player, answer, true)
@@ -477,11 +467,10 @@ function module.startGrammarTest(blackboard)
 		end
 	end
 
-	-- Show final results and EXP earned
+	-- Show final results
 	local resultsText = "Test completed! Final scores:\n"
 	for player, score in pairs(playerScores) do
-		local expEarned = score * EXP_PER_CORRECT_ANSWER
-		resultsText = resultsText .. player.Name .. ": " .. score .. "/" .. #testQuestions .. " (+" .. expEarned .. " EXP)\n"
+		resultsText = resultsText .. player.Name .. ": " .. score .. "/" .. #testQuestions .. "\n"
 	end
 
 	elements.reminderText.Text = resultsText

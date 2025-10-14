@@ -1,0 +1,500 @@
+-- This is the module script in ReplicationStorage
+local module = {}
+
+-- questions table (30 in total, very crazy)
+local questions = {
+	{
+		question = "Which sentence is grammatically correct?", --Q1
+		options = {
+			"A. She don't like apples.",
+			"B. She doesn't likes apples.",
+			"C. She doesn't like apples.",
+			"D. She is not like apples."
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "Ice cream is made _____ milk.", --Q2
+		options = {
+			"A. of",
+			"B. up of",
+			"C. from",
+			"D. with"
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "Choose the correct past tense of 'go':", --Q3
+		options = {
+			"A. goed",
+			"B. went",
+			"C. gone",
+			"D. goes"
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Which word is a proper noun?", --Q4
+		options = {
+			"A. city",
+			"B. london",
+			"C. London",
+			"D. country"
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "Identify the adverb: 'She ran so quickly!'", --Q5
+		options = {
+			"A. She",
+			"B. ran",
+			"C. so",
+			"D. quickly"
+		},
+		correctAnswer = "D"
+	},
+	{
+		question = "Which is a complete sentence?", --Q6
+		options = {
+			"A. Running down the street.",
+			"B. Because I said so!",
+			"C. The cat sat on the mat.",
+			"D. After the rain stopped."
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "Choose the correct plural form of 'child'", --Q7
+		options = {
+			"A. childs",
+			"B. children",
+			"C. childes",
+			"D. childrens"
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Clarence always hands in homework ____ time.", --Q8
+		options = {
+			"A. on",
+			"B. in",
+			"C. at",
+			"D. under"
+		},
+		correctAnswer = "A"
+	},
+	{
+		question = "Which word is a pronoun?", --Q9
+		options = {
+			"A. Quickly",
+			"B. Beautiful",
+			"C. She",
+			"D. Running"
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "What is the superlative form of 'Good'?", --Q10
+		options = {
+			"A. Best",
+			"B. Better",
+			"C. Gooder",
+			"D. Goodest"
+		},
+		correctAnswer = "A"
+	},
+	{
+		question = "Which sentence contains a preposition?", --Q11
+		options = {
+			"A. Sukie sings beautifully.",
+			"B. The cat is on the table.",
+			"C. He runs fast.",
+			"D. They are happy."
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Choose the grammartically correct sentence:", --Q12
+		options = {
+			"A. I has a dog.",
+			"B. I have a dog.",
+			"C. I am have a dog.",
+			"D. I having a dog."
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "What is the past participle of 'Eat'?", --Q13
+		options = {
+			"A. Ate",
+			"B. Eaten",
+			"C. Eating",
+			"D. Eated"
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Which sentence is in the passive voice?", --Q14
+		options = {
+			"A. Shinnki wrote a letter.",
+			"B. A letter was written by Shinnki",
+			"C. Shinnki is writing a letter.",
+			"D. Shinnki will write a letter."
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Identify the correct contraction for 'they are'", --Q15
+		options = {
+			"A. They’re",
+			"B. Their",
+			"C. There",
+			"D. They’ve"
+		},
+		correctAnswer = "A"
+	},
+	{
+		question = "Choose the correct comparative form of 'big'", --Q16
+		options = {
+			"A. Bigger",
+			"B. Biggest",
+			"C. More big",
+			"D. Bigly"
+		},
+		correctAnswer = "A"
+	},
+	{
+		question = "Choose the grammartically correct sentence:", --Q17
+		options = {
+			"A. Me and him went to the park.",
+			"B. Him and me went to the park.",
+			"C. He and I went to the park.",
+			"D. I and he went to the park."
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Which sentence uses 'your' correctly?", --Q18
+		options = {
+			"A. Your going to love this!",
+			"B. You’re book is on the table.",
+			"C. Is this your pen?",
+			"D. Your welcome!"
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "Which is an example of an interjection?", --Q19
+		options = {
+			"A. Run",
+			"B. Wow",
+			"C. Slowly",
+			"D. Table"
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "What is the correct question form of 'She is happy'?", --Q20
+		options = {
+			"A. Is she happy?",
+			"B. She is happy?",
+			"C. Does she happy?",
+			"D. Are she happy?"
+		},
+		correctAnswer = "A"
+	},
+	{
+		question = "___ apple a day keeps the doctor away.", --Q21
+		options = {
+			"A. A",
+			"B. An",
+			"C. The",
+			"D. (No article)"
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Which sentence is grammatically incorrect?", --Q22
+		options = {
+			"A. They are playing football",
+			"B. Illarion don’t like coffee.",
+			"C. Gray has a new car.",
+			"D. We went to the park."
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "What is the correct plural of 'mouse'?", --Q23
+		options = {
+			"A. Mouses",
+			"B. Mices",
+			"C. Mice",
+			"D. Mous"
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "Which word is a verb?", --Q24
+		options = {
+			"A. Happiness",
+			"B. Blue",
+			"C. Jump",
+			"D. Rapidly"
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "Which sentence is in the future tense?'", --Q25
+		options = {
+			"A. Qiay eats breakfast.",
+			"B. Qiay will eat breakfast.",
+			"C. Qiay ate breakfast.",
+			"D. Qiay is eating breakfast."
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "What is the correct negative form of 'I have seen that movie?", --Q26
+		options = {
+			"A. I doesn’t have seen that movie.",
+			"B. I didn’t seen that movie.",
+			"C. I not have seen that movie.",
+			"D. I haven’t seen that movie."
+		},
+		correctAnswer = "D"
+	},
+	{
+		question = "Which sentence uses 'its' correctly?", --Q27
+		options = {
+			"A. Its a beautiful day.",
+			"B. The dog wagged it’s tail.",
+			"C. The cat licked its paws.",
+			"D. Its’ raining outside."
+		},
+		correctAnswer = "C"
+	},
+	{
+		question = "My car was _____ in the accident, it was a total loss.", --Q28
+		options = {
+			"A. destroyed",
+			"B. damaged",
+			"C. hurt",
+			"D. broke."
+		},
+		correctAnswer = "A"
+	},
+	{
+		question = "The party was _____, I enjoyed it a lot!", --Q29
+		options = {
+			"A. funny",
+			"B. fun",
+			"C. funniest",
+			"D. funnier"
+		},
+		correctAnswer = "B"
+	},
+	{
+		question = "Yes, I agree _____ you.", --Q30
+		options = {
+			"A. to",
+			"B. on",
+			"C. at",
+			"D. with"
+		},
+		correctAnswer = "D"
+	}
+}
+
+-- Cache services
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+-- Constants
+local EXP_PER_CORRECT_ANSWER = 10
+local QUESTION_TIME_LIMIT = 10
+local RESULT_DISPLAY_TIME = 5
+local BETWEEN_QUESTION_DELAY = 5
+
+-- Fisher-Yates shuffle algorithm
+local function shuffleQuestions(questionList)
+	local shuffled = {}
+	for i, question in ipairs(questionList) do
+		shuffled[i] = question
+	end
+
+	for i = #shuffled, 2, -1 do
+		local j = math.random(i)
+		shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
+	end
+
+	return shuffled
+end
+
+-- Remote events management
+local function setupRemotes()
+	local EnglishRemotes = Instance.new("Folder")
+	EnglishRemotes.Name = "EnglishRemotes"
+	EnglishRemotes.Parent = ReplicatedStorage
+
+	local AnswerSelectedEvent = Instance.new("RemoteEvent")
+	AnswerSelectedEvent.Name = "AnswerSelectedEvent"
+	AnswerSelectedEvent.Parent = EnglishRemotes
+
+	local UpdateButtonEvent = Instance.new("RemoteEvent")
+	UpdateButtonEvent.Name = "UpdateButtonEvent"
+	UpdateButtonEvent.Parent = EnglishRemotes
+
+	return {
+		AnswerSelectedEvent = AnswerSelectedEvent,
+		UpdateButtonEvent = UpdateButtonEvent
+	}
+end
+
+-- Function to start the English minigame
+function module.startGrammarTest(blackboard)
+	local EnglishRemotes = setupRemotes()
+	local surfaceGui = blackboard:FindFirstChild("SurfaceGui")
+	if not surfaceGui then return end
+
+	-- Get UI elements
+	local elements = {
+		reminderText = surfaceGui:FindFirstChild("ReminderText"),
+		questionTitle = surfaceGui:FindFirstChild("QuestionTitle"),
+		aButton = surfaceGui:FindFirstChild("AButton"),
+		bButton = surfaceGui:FindFirstChild("BButton"),
+		cButton = surfaceGui:FindFirstChild("CButton"),
+		dButton = surfaceGui:FindFirstChild("DButton")
+	}
+
+	-- Hide all interactive elements initially
+	for _, element in pairs(elements) do
+		if element then element.Visible = false end
+	end
+
+	-- Initial countdown
+	elements.reminderText.Visible = true
+	for i = 10, 1, -1 do
+		elements.reminderText.Text = "English Grammar Test starting in "..i.." seconds..."
+		task.wait(1)
+	end
+
+	-- Prepare questions
+	local testQuestions = {}
+	local shuffled = shuffleQuestions(questions)
+	for i = 1, math.min(6, #shuffled) do
+		table.insert(testQuestions, shuffled[i])
+	end
+
+	-- Track scores
+	local playerScores = {}
+	for _, player in ipairs(Players:GetPlayers()) do
+		playerScores[player] = 0
+	end
+
+	-- Main test loop
+	for questionNum, currentQuestion in ipairs(testQuestions) do
+		local playerAnswers = {}  -- Reset for each question
+
+		-- Create a new connection for each question
+		local connection = EnglishRemotes.AnswerSelectedEvent.OnServerEvent:Connect(function(player, answer)
+			if not playerAnswers[player] then
+				playerAnswers[player] = answer
+				if answer == currentQuestion.correctAnswer then
+					playerScores[player] = playerScores[player] + 1
+
+					-- Award EXP for correct answer
+					local leaderstats = player:FindFirstChild("leaderstats")
+					if leaderstats then
+						local exp = leaderstats:FindFirstChild("Exp")
+						if exp then
+							exp.Value = exp.Value + EXP_PER_CORRECT_ANSWER
+						end
+					end
+				end
+				-- Notify client to update button visuals
+				EnglishRemotes.UpdateButtonEvent:FireClient(player, answer, true)
+			end
+		end)
+
+		-- Show question
+		elements.reminderText.Visible = false
+		elements.questionTitle.Text = "Question "..questionNum..": "..currentQuestion.question
+		elements.questionTitle.Visible = true
+
+		-- Show and update buttons
+		local buttons = {
+			A = elements.aButton,
+			B = elements.bButton,
+			C = elements.cButton,
+			D = elements.dButton
+		}
+
+		for option, button in pairs(buttons) do
+			button.Text = currentQuestion.options[table.find({"A","B","C","D"}, option)]
+			button.Visible = true
+			EnglishRemotes.UpdateButtonEvent:FireAllClients(option, false) -- Reset button visuals
+		end
+
+		-- Answer timer
+		local answerTime = QUESTION_TIME_LIMIT
+		for i = answerTime, 1, -1 do
+			elements.questionTitle.Text = "Question "..questionNum..": "..currentQuestion.question.." ("..i.."s remaining)"
+			task.wait(1)
+		end
+
+		-- Hide question elements
+		for _, element in pairs(elements) do
+			if element ~= elements.reminderText then
+				element.Visible = false
+			end
+		end
+
+		-- Show results
+		local correctCount = 0
+		for _, answer in pairs(playerAnswers) do
+			if answer == currentQuestion.correctAnswer then
+				correctCount = correctCount + 1
+			end
+		end
+
+		elements.reminderText.Text = string.format(
+			"Question %d results:\n%d/%d answered correctly!\nCorrect answer: %s",
+			questionNum, correctCount, #Players:GetPlayers(), currentQuestion.correctAnswer
+		)
+		elements.reminderText.Visible = true
+
+		-- Clean up connection
+		connection:Disconnect()
+
+		task.wait(RESULT_DISPLAY_TIME)
+
+		-- Next question countdown
+		if questionNum < #testQuestions then
+			for i = BETWEEN_QUESTION_DELAY, 1, -1 do
+				elements.reminderText.Text = "Next question in "..i.." seconds..."
+				task.wait(1)
+			end
+		end
+	end
+
+	-- Show final results and EXP earned
+	local resultsText = "Test completed! Final scores:\n"
+	for player, score in pairs(playerScores) do
+		local expEarned = score * EXP_PER_CORRECT_ANSWER
+		resultsText = resultsText .. player.Name .. ": " .. score .. "/" .. #testQuestions .. " (+" .. expEarned .. " EXP)\n"
+	end
+
+	elements.reminderText.Text = resultsText
+	elements.reminderText.Visible = true
+	task.wait(10)
+
+	-- Clear the board
+	elements.reminderText.Text = "Please await for the next English class ^-^"
+
+	-- Clean up remotes
+	EnglishRemotes.AnswerSelectedEvent:Destroy()
+	EnglishRemotes.UpdateButtonEvent:Destroy()
+	EnglishRemotes:Destroy()
+end
+
+return module

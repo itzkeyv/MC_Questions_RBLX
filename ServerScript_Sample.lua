@@ -40,11 +40,9 @@ end
 -- end)
 
 -- Option C: Start via remote event (for GUI buttons)
--- local StartGrammarEvent = Instance.new("RemoteEvent")
--- StartGrammarEvent.Name = "StartGrammarEvent"
--- StartGrammarEvent.Parent = ReplicatedStorage
+-- local EnglishRemote = blah blah
 -- 
--- StartGrammarEvent.OnServerEvent:Connect(function(player)
+-- EnglishRemote.OnServerEvent:Connect(function(player)
 --     startGrammarGame()
 -- end)
 

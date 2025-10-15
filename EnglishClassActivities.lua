@@ -65,15 +65,15 @@ end
 
 -- Remote events management
 local function setupRemotes()
-	local EnglishRemotes = Instance.new("Folder")
+	local EnglishRemotes = Instance.new("Folder") -- this is to activate the minigame
 	EnglishRemotes.Name = "EnglishRemotes"
 	EnglishRemotes.Parent = ReplicatedStorage
 
-	local AnswerSelectedEvent = Instance.new("RemoteEvent")
+	local AnswerSelectedEvent = Instance.new("RemoteEvent") --literally what it means
 	AnswerSelectedEvent.Name = "AnswerSelectedEvent"
 	AnswerSelectedEvent.Parent = EnglishRemotes
 
-	local UpdateButtonEvent = Instance.new("RemoteEvent")
+	local UpdateButtonEvent = Instance.new("RemoteEvent") --yeah
 	UpdateButtonEvent.Name = "UpdateButtonEvent"
 	UpdateButtonEvent.Parent = EnglishRemotes
 
